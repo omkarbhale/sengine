@@ -1,0 +1,21 @@
+{
+  "name": "sengine",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/scraper/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "dependencies": {
+    "jsdom": "^24.0.0",
+    "sequelize": "^6.37.2",
+    "sqlite3": "^5.1.7"
+  }
+}
