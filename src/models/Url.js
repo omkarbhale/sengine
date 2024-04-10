@@ -1,11 +1,11 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../db/connect');
-const Page = require('./Page');
 
 const Url = sequelize.define('Url', {
     url: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
     },
     isScraped: {
         type: DataTypes.BOOLEAN,
@@ -13,7 +13,11 @@ const Url = sequelize.define('Url', {
     },
     page: {
         type: DataTypes.INTEGER,
-        references: { model: 'pages', key: 'id' },
+        references: { model: 'Pages', key: 'id' },
+    },
+    parentUrl: {
+        type: DataTypes.INTEGER,
+        references: { model: 'Urls', key: 'id' },
     },
     errorMessage: {
         type: DataTypes.STRING,

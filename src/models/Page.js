@@ -4,7 +4,8 @@ const Url = require('./Url');
 
 const Page = sequelize.define('Page', {
     url: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
+        references: { model: 'Urls', 'key': 'id' },
         allowNull: false,
     },
     content: {
@@ -12,7 +13,5 @@ const Page = sequelize.define('Page', {
         allowNull: false,
     }
 });
-
-Page.hasOne(Url);
 
 module.exports = Page;

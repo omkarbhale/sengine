@@ -4,8 +4,8 @@ const { JSDOM } = require("jsdom");
 const fetchHtml = async (url) => {
     return new Promise((res, rej) => {
         http.get(url, (result) => {
-            if (!result.headers['content-type'].includes("text/html")) {
-                throw new Error(`URL ${url} did not respond with text/html`);
+            if (!result.headers['content-type'] || !result.headers['content-type'].includes("text/html")) {
+                rej(`URL ${url} did not respond with text/html`);
             }
             const data = [];
             result.on('close', () => {
@@ -13,6 +13,9 @@ const fetchHtml = async (url) => {
                 res(result);
             });
             result.on('data', d => data.push(d));
+            result.on('error', err => {
+                rej(err);
+            });
         });
     })
 }
@@ -30,9 +33,12 @@ const scrape = async (url) => {
     try {
         const result = await fetchHtml(url);
         const urls = fetchUrlsFromContent(url, result.content);
-        return [urls, null];
+        if (result.content === null || result.content.length === 0) {
+            throw new Error("Result content was null kinda");
+        }
+        return [urls, result.content, null];
     } catch(e) {
-        return [null, e.message];
+        return [null, null, e];
     }
 }
 
